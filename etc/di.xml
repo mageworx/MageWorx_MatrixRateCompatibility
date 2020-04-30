@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Add Matrix Rate Methods to shipping methods option array -->
+    <type name="WebShopApps\MatrixRate\Model\Carrier\Matrixrate">
+        <plugin name="mageworx_add_matrix_rate_methods"
+                type="MageWorx\MatrixRateCompatibility\Plugin\AddAllowedMethodsToMatrixRateCarrier"
+                sortOrder="10"
+                disabled="false"/>
+    </type>
+</config>
