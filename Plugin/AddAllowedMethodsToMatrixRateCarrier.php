@@ -14,9 +14,9 @@ class AddAllowedMethodsToMatrixRateCarrier
     private $matrixRateCollectionFactory;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private $shippingMethods = [];
+    private $shippingMethods;
 
     /**
      * AddAllowedMethodsToMatrixRateCarrier constructor.
@@ -38,16 +38,14 @@ class AddAllowedMethodsToMatrixRateCarrier
         \WebShopApps\MatrixRate\Model\Carrier\Matrixrate $subject,
         array $result = []
     ): array {
-
-        if (empty($this->shippingMethods)) {
+        if ($this->shippingMethods === null) {
             /** @var \WebShopApps\MatrixRate\Model\ResourceModel\Carrier\Matrixrate\Collection $collection */
             $collection = $this->matrixRateCollectionFactory->create();
             $collection->addFieldToSelect('pk')
                        ->addFieldToSelect('shipping_method');
 
-            $items           = $collection->getItems();
             $shippingMethods = [];
-            foreach ($items as $item) {
+            foreach ($collection->getItems() as $item) {
                 $code                   = 'matrixrate_' . $item['pk'];
                 $label                  = $item['shipping_method'];
                 $shippingMethods[$code] = $label;
@@ -56,8 +54,6 @@ class AddAllowedMethodsToMatrixRateCarrier
             $this->shippingMethods = $shippingMethods;
         }
 
-        $result = array_merge($result, $this->shippingMethods);
-
-        return $result;
+        return array_merge($result, $this->shippingMethods);
     }
 }
